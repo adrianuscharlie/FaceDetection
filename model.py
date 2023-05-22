@@ -60,10 +60,10 @@ class CustomModel:
 
             # make predictions
             predictions = self.customModel.predict(frame_expanded)
+            print(predictions)
             label=np.squeeze(predictions.astype(int))
             label=np.squeeze(label)
             label=int(np.argmax(label))
-            print(int(label),labels)
             faces = face_cascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
             for (x, y, w, h) in faces:
                 cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -75,4 +75,15 @@ class CustomModel:
                 break
         # Destroy window when the real time predictions end
         cv.destroyAllWindows()
+    
+    # Function to load the custom model
+    def loadModel(self,path:str):
+        self.customModel=tf.keras.models.load_model(str)
+        print('Success Load Model!')
+        self.customModel.summary()
+    
+    # Function to load the custom model
+    def saveModel(self,path:str):
+        self.customModel.save_model(path)
+        print(f"Success save model on {os.path.join(os.getcwd(),path)}")
 
