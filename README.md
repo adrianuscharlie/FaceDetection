@@ -38,3 +38,8 @@ and will be evaluated using testing data. For detail modelling information, you 
 
 ## Realtime Predictions
 This is some example of real time predictions using the current model that already trained from previous step.
+<p float="left">
+  <img src="https://github.com/adrianuscharlie/FaceDetection/blob/main/Image/dyah.jpg" width="400" height="200">
+  <img src="https://github.com/adrianuscharlie/FaceDetection/blob/main/Image/debby.jpg" width="400" height="200"> 
+  <img src="https://github.com/adrianuscharlie/FaceDetection/blob/main/Image/unknown.jpg" width="400" height="200"> 
+</p>
