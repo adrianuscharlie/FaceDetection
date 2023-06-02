@@ -3,8 +3,9 @@
 Create deep learning model for face recognition using CNN and custom dataset with real time detection. The purpose of building this repository are want to do face detection, and the model will be deployed to the ESP Cam 32 for automatic door using face recognition.
 <br>
 <img src="https://yt3.googleusercontent.com/ytc/AL5GRJXDeStsPJL7Uz92074WfPjSGB7j810G8LqwhTKKSA=s900-c-k-c0x00ffffff-no-rj" width="200" height="200">
+<img src="https://www.vectorlogo.zone/logos/pytorch/pytorch-ar21.png" width="400" height="200"> 
 <img src="https://editor.analyticsvidhya.com/uploads/232202.png" width="200" height="200"> 
-<img src="https://www.vectorlogo.zone/logos/python/python-ar21.png" width="400" height="200"> 
+<img src="https://www.vectorlogo.zone/logos/python/python-ar21.png" width="400" height="200">  
 
 ## Features
 - Tools
