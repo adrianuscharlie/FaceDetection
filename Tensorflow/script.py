@@ -3,10 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
-import pandas as pd
+import tensorflow as tf
 import cv2 as cv
 from sklearn.model_selection import train_test_split
-import tensorflow as tf
 
 class Dataset():
     """ Create dataset custom class that contains image data generator from keras preprocessing.
@@ -67,8 +66,6 @@ class Dataset():
         return (x_train,x_test,y_train,y_test)
     
 
-
-
 class Model:
     def __init__(self,label:dict) -> None:
         self.model = tf.keras.Sequential([
@@ -78,6 +75,7 @@ class Model:
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+            tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Flatten(),
             tf.keras.layers.Dense(64, activation='relu'),
             # num_classes is the number of output classes
@@ -89,8 +87,43 @@ class Model:
         self.history=None
         self.score=[]
 
-    def trainModel(self,x_train,y_train,epochs):
-        self.history=self.model.fit(x_train,y_train,epochs=epochs)
+    def trainModel(self,x_train,y_train,x_test,y_test,epochs):
+        self.history=self.model.fit(x_train,y_train,epochs=epochs,validation_data=(x_test,y_test))
+        
+    
+    def plotTraining(self):
+        history=self.history
+        accuracy = history.history['accuracy']
+        val_accuracy = history.history['val_accuracy']
+        loss = history.history['loss']
+        val_loss=history.history['val_loss']
+        
+        # Create subplots
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 6))
+
+        # Plot accuracy
+        ax1.plot(accuracy, 'r.-')
+        ax1.plot(val_accuracy,'b.-')
+        ax1.set_title('Training Accuracy')
+        ax1.set_xlabel('Epoch')
+        ax1.set_ylabel('Accuracy')
+        ax1.legend(['Training Accuracy','Validation Accuracy'])
+        ax1.grid(True)
+
+        # Plot loss
+        ax2.plot(loss, 'r.-')
+        ax2.plot(val_loss, 'b.-')
+        ax2.set_title('Training Loss')
+        ax2.set_xlabel('Epoch')
+        ax2.set_ylabel('Loss')
+        ax2.legend(['Training Loss','Validation Loss'])
+        ax2.grid(True)
+
+        # Adjust spacing between subplots
+        plt.tight_layout()
+
+        # Display the plot
+        plt.show()
     
     def evaluateModel(self,x_test,y_test):
         self.score=self.model.evaluate(x_test,y_test)
