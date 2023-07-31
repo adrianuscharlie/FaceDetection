@@ -11,16 +11,18 @@ class Dataset():
     """ Create dataset custom class that contains image data generator from keras preprocessing.
     this class contains labels, batch_size of the dataset, and the core path of the dataset.
     this class can get the sample of image using the get sample function.
-    
     """
-    def __init__(self,path,image_size,train_size):
-        self.path=path
-        self.data=pd.DataFrame([],columns=['Image_path','Classes'])
-        self.image_size=image_size
-        self.train_size=train_size
-        self.label={}
+    def __init__(self,path,image_size,size):
+        self.path=path # Alamat directory folder
+        self.data=pd.DataFrame([],columns=['Image_path','Classes']) # Nampung dataset
+        self.image_size=image_size # Ukuran gambar
+        self.size=size # Ukuran data training
+        self.label={} # label
         self.loadImage()
     def loadImage(self):
+        """
+        Load Dataset -> Dataframe Pandas isinya Alamat directory dan nama class/label
+        """
         image_data=[]
         for dir_path, _, file_names in os.walk(self.path):
                 for file_name in file_names:
@@ -32,6 +34,11 @@ class Dataset():
         self.data=pd.DataFrame(image_data)
 
     def preprocessedImage(self,image_path):
+            """
+            Tahapan preprocessing image:
+            convert image dari rgb ke grayscale -> Equalize histogram -> Gausian Blurr -> Resize (80,80,1)->
+            rescale -> 1/255.0
+            """
             image = cv.imread(image_path)
             # Convert the image to grayscale
             gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -43,6 +50,9 @@ class Dataset():
             return normalized
     
     def getSample(self,grayscale=False):
+        """
+        Mengambil sample gambar dari random index
+        """
         random_idx=random.randint(0,len(self.data))
         sample=self.data.iloc[random_idx]
         img_path,label=sample['Image_Path'],sample['Class']
@@ -60,17 +70,18 @@ class Dataset():
         self.idx_to_label= {index: label for index, label in enumerate(self.data['Class'].unique())}
         numerical_labels = [self.label_to_idx[label] for label in self.data['Class']]
         labels = tf.keras.utils.to_categorical(numerical_labels)
-        gray=self.data['Image_Path'].apply(self.preprocessedImage)
+        gray=self.data['Image_Path'].apply(self.preprocessedImage) # Preprocessing image
         gray=np.array(gray.tolist())
-        x_train,x_test,y_train,y_test=train_test_split(gray,labels,train_size=self.train_size,random_state=42)
-        return (x_train,x_test,y_train,y_test)
+        x_train,x_test,y_train,y_test=train_test_split(gray,labels,test_size=self.size['test'],random_state=42)
+        x_train,x_valid,y_train,y_valid=train_test_split(x_train,y_train,test_size=self.size['validation'],random_state=42)
+        return (x_train,y_train,x_valid,y_valid,x_test,y_test)
     
 
 class Model:
     def __init__(self,label:dict) -> None:
         self.model = tf.keras.Sequential([
             tf.keras.layers.Conv2D(
-                32, (3, 3), activation='relu', input_shape=(80, 80, 1)),
+                32, (3, 3), activation='relu', input_shape=(80, 80, 1)), 
             tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D((2, 2)),
