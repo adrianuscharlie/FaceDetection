@@ -24,9 +24,9 @@ Dataset that used is taken by myself. I gather multiple photo of my friends face
 will be splitted into train and test dataset with ratio 0.8 : 0.2
 | People | Label | Quantity |
 | --- | --- | --- |
-| Dyah | dyah | 280 |
-| Debby | debby | 202 |
-| UnKnown | UnKnown | 411 |
+| Dyah | Dyah | 450 |
+| Deby | Deby | 353 |
+| Unknown | Unknown | 411 |
 
 The Dataset will be loaded using Custom Class that using ImageDataGenerator to make easier load and preprocess the image data. For the custom dataset class, you can
 access it through [This Link](https://github.com/adrianuscharlie/FaceDetection/blob/main/dataset.py)
