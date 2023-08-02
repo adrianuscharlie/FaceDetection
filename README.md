@@ -28,14 +28,13 @@ will be splitted into train and test dataset with ratio 0.8 : 0.2
 | Deby | Deby | 353 |
 | Unknown | Unknown | 411 |
 
-The Dataset will be loaded using Custom Class that using ImageDataGenerator to make easier load and preprocess the image data. For the custom dataset class, you can
-access it through [This Link](https://github.com/adrianuscharlie/FaceDetection/blob/main/dataset.py)
+The Dataset will be loaded using Custom Class that using ImageDataGenerator to make easier load and preprocess the image data. 
 
 ## Modelling
 For this face detection case, I using deep learning model that implemented CNN Algorithm. The target image for the model are 80 x 80 pixel with 
 3 color channels. This model using adam for the optimizer, relu for the hidden layer activation function and softmax activation function for the
 output layer, because the case are multiclass image classification. After that, the model will be trained using 10 epochs, batch size equals to 8,
-and will be evaluated using testing data. For detail modelling information, you can access it through [This Link](https://github.com/adrianuscharlie/FaceDetection/blob/main/model.py)
+and will be evaluated using testing data.
 
 ## Realtime Predictions
 This is some example of real time predictions using the current model that already trained from previous step.
